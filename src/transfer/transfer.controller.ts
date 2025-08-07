@@ -1,25 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, Req } from '@nestjs/common';
 import { TransferService } from './transfer.service';
 import { CreateTransferDto } from './dto/create-transfer.dto';
-import { UpdateTransferDto } from './dto/update-transfer.dto';
+import { JwtAuthGuard } from '../users/jwt-auth.guard';
 
-@Controller('transfer')
+@Controller('transactions')
 export class TransferController {
   constructor(private readonly transferService: TransferService) { }
 
   @Post()
-  create(@Body() createTransferDto: CreateTransferDto) {
-    return this.transferService.create(createTransferDto);
+  @UseGuards(JwtAuthGuard)
+  create(@Body() createTransferDto: CreateTransferDto, @Req() req) {
+    return this.transferService.create(createTransferDto, req.user.sub);
   }
 
   @Get()
-  findAll() {
-    return this.transferService.findAll();
+  @UseGuards(JwtAuthGuard)
+  findAll(@Req() req) {
+    return this.transferService.findAll(req.user.sub);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.transferService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  findOne(@Param('id') id: string, @Req() req) {
+    return this.transferService.findOne(+id, req.user.sub);
   }
-
 }

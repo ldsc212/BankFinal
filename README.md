@@ -56,6 +56,17 @@ npm run start:dev
 - No subas archivos `.env` ni datos sensibles.
 - Revisa el archivo `.gitignore` para evitar subir archivos innecesarios.
 
+## Endpoints de la API Bancaria
+
+| Método | Endpoint                      | Descripción                                      | Autenticación |
+|--------|-------------------------------|--------------------------------------------------|---------------|
+| POST   | /api/users/register           | Registra un nuevo usuario                        | No            |
+| POST   | /api/users/login              | Inicia sesión y devuelve un JWT                  | No            |
+| GET    | /api/users/me                 | Obtiene información del usuario autenticado      | Sí (JWT)      |
+| POST   | /api/transfer                 | Realiza una transferencia a otro usuario         | Sí (JWT)      |
+| GET    | /api/transfer                 | Obtiene el historial de transferencias del usuario| Sí (JWT)      |
+| GET    | /api/transfer/:id             | Obtiene los detalles de una transferencia        | Sí (JWT)      |
+
 ---
 Hecho con NestJS ❤️
 
